@@ -1,6 +1,6 @@
 # Servidor FTP en C
 
-Este proyecto es una implementación básica de un servidor FTP con certificados TCP a través de sockets en C. Permite a los clientes conectarse, listar archivos disponibles, descargar archivos y subir archivos al servidor.
+Este proyecto es una implementación básica de un servidor FTP con certificados TCP/SSL a través de sockets en C. Permite a los clientes conectarse, listar archivos disponibles, descargar archivos y subir archivos al servidor.
 
 ## Contenido
 
@@ -11,6 +11,7 @@ Este proyecto es una implementación básica de un servidor FTP con certificados
 ## Requisitos
 
 - Un sistema con un compilador de C (como `gcc`).
+- Tener instalado openSSL y generar un server.key y server.crt
 
 ## Instalación
 
