@@ -1,0 +1,19 @@
+# ninja log v6
+0	45	1726406418932573226	build.ninja	2ee7871b25807fa8
+0	218	1726406238373604667	CMakeFiles/ftp_server.dir/main.c.o	f6e51798bb08d4cf
+218	355	1726406238592059663	ftp_server	75a9fd252ffc7e60
+0	26	1726406423530364818	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
+1	26	1726406423530872985	CMakeFiles/ftp_server.dir/utils.c.o	84c26e93341f493a
+1	26	1726406423530712610	CMakeFiles/ftp_server.dir/commands.c.o	cbd1c215af5c4ab9
+26	67	1726406423556407159	ftp_server	e8adedbc712d7944
+0	29	1726406514514931750	CMakeFiles/ftp_server.dir/main.c.o	f6e51798bb08d4cf
+1	30	1726406514515200933	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
+30	69	1726406514544173963	ftp_server	e8adedbc712d7944
+2	36	1726407605373958980	CMakeFiles/ftp_server.dir/commands.c.o	cbd1c215af5c4ab9
+2	37	1726407605373205318	CMakeFiles/ftp_server.dir/main.c.o	f6e51798bb08d4cf
+2	65	1726407605373614107	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
+66	107	1726407605437355792	ftp_server	e8adedbc712d7944
+1	37	1726407721655457773	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
+37	74	1726407721691545650	ftp_server	e8adedbc712d7944
+1	41	1726408321173415212	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
+42	79	1726408321214324026	ftp_server	e8adedbc712d7944

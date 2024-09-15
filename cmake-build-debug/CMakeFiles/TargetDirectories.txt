@@ -1,0 +1,3 @@
+/Users/davidarroyo/Documents/projects/networking/ftp_server/cmake-build-debug/CMakeFiles/ftp_server.dir
+/Users/davidarroyo/Documents/projects/networking/ftp_server/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/davidarroyo/Documents/projects/networking/ftp_server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
