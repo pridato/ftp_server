@@ -1,0 +1,21 @@
+# Ignorar claves privadas y certificados
+server.key
+server.csr
+server.crt
+
+# Ignorar otros archivos generados
+*.pem
+*.p12
+*.pfx
+
+# Ignorar directorios temporales
+temp/
+*.log
+
+# Ignorar archivos compilados y binarios
+*.o
+*.out
+*.exe
+*.so
+*.a
+*.dylib
