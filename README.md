@@ -18,22 +18,25 @@ Para compilar y ejecutar el servidor FTP, sigue estos pasos:
 
 1. **Clonar el repositorio:**
 
-   ```bash
-   git clone https://github.com/pridato/ftp_server.git
-   cd ftp_server
-   ```
+  ```bash
+  git clone https://github.com/pridato/ftp_server.git
+  cd ftp_server
+  ```
   
 2. **Compilar el proyecto:**
+
   ```bash
   gcc -o ftp_server server.c commands.c utils.c
   ```
 
 3. **Crear el directorio de archivos:**
+
   ```bash
   mkdir ftp_files
   ```
 
 **Inicializar servidor**
+
 ```bash 
 ./ftp_server
 ```
