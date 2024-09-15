@@ -53,11 +53,7 @@ void start_server() {
         exit(EXIT_FAILURE);
     }
 
-    printf("Cliente conectado\n");
-
     handle_client(client_socket);
-
-    printf("Cliente desconectado\n");
 
     close(client_socket);
     close(server_socket);

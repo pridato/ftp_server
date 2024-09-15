@@ -103,4 +103,27 @@ void retrieve_file(int client_socket, const char *filename) {
  * @param filename
  */
 void store_file(const int client_socket, const char *filename) {
+    char filepath[BUFFER_SIZE];
+    snprintf(filepath, sizeof(filepath), "%s/%s", FTP_DIR, filename); // filepath + filename poco más...
+
+    FILE *file = fopen(filepath, "wb"); // puntero que abre el archivo en modo escritura en binario
+    if (file == NULL) {
+        perror("fopen");
+        const char *error_msg = "Error: no se pudo crear el archivo\n";
+        send(client_socket, error_msg, strlen(error_msg), 0);
+        return;
+    }
+
+    char buffer[BUFFER_SIZE];
+    ssize_t bytes_received;
+
+    while ((bytes_received = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
+        fwrite(buffer, 1, bytes_received, file);
+    }
+
+    if (bytes_received < 0) {
+        perror("recv");
+    }
+    fclose(file);
+
 }
