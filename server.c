@@ -3,7 +3,6 @@
 //
 #include "server.h"
 #include "commands.h"
-#include "utils.h"
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -12,6 +11,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
 
 #define PORT 21
 #define BUFFER_SIZE 1024 // Tamaño del búfer para recibir y enviar datos
