@@ -1,7 +1,7 @@
 # Ignorar claves privadas y certificados
-server.key
+cmake-build-debug/server.key
 server.csr
-server.crt
+cmake-build-debug/server.crt
 
 # Ignorar otros archivos generados
 *.pem

@@ -5,3 +5,8 @@
 3	210	1726432488382943262	CMakeFiles/ftp_server.dir/server.c.o	c39e41c4950fee01
 0	45	1726435198015185432	build.ninja	2ee7871b25807fa8
 1	27	1726408990764367312	CMakeFiles/ftp_server.dir/utils.c.o	84c26e93341f493a
+5	162	1726436161612331020	CMakeFiles/ftp_server.dir/utils.c.o	ffa92427f3b5ba12
+4	190	1726436161611386064	CMakeFiles/ftp_server.dir/main.c.o	310e9e570695bd3f
+4	250	1726436161611737646	CMakeFiles/ftp_server.dir/server.c.o	a82809d9124172c4
+5	251	1726436161612144062	CMakeFiles/ftp_server.dir/commands.c.o	3f7af3f5adcf5941
+251	378	1726436161858101208	ftp_server	8bcbfd9a353d9695

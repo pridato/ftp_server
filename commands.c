@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <openssl/ssl.h>
 #include <sys/socket.h>
 
 #define BUFFER_SIZE 1024 // Tamaño del búfer para recibir y enviar datos
@@ -15,24 +16,24 @@
 
 /**
  * función que habilita el listado de comandos del cliente en el repos. actual
- * @param client_socket número del cliente conectado por socket
+ * @param ssl
  */
-void handle_client(int client_socket) {
+void handle_client(SSL *ssl) {
     char buffer[BUFFER_SIZE];
     ssize_t bytes_received;
-    while ((bytes_received = recv(client_socket, buffer, BUFFER_SIZE - 1, 0)) > 0) {
+    while ((bytes_received = SSL_read(ssl, buffer, sizeof(buffer) - 1)) > 0) {
         buffer[bytes_received] = '\0';
         printf("Mensaje del cliente: %s\n", buffer);
 
         if (strncmp(buffer, "LIST", 4) == 0) {
-            list_files(client_socket);
+            list_files(ssl);
         } else if (strncmp(buffer, "RETR ", 5) == 0) {
-            retrieve_file(client_socket, buffer + 5);
+            retrieve_file(ssl, buffer + 5);
         } else if (strncmp(buffer, "STOR ", 5) == 0) {
-            store_file(client_socket, buffer + 5);
+            store_file(ssl, buffer + 5);
         } else {
             const char *response = "Comando no reconocido\n";
-            send(client_socket, response, strlen(response), 0);
+            SSL_write(ssl, response, strlen(response));
         }
     }
 
@@ -43,38 +44,37 @@ void handle_client(int client_socket) {
 
 /**
  * Funcion para listar los archivos del servidor
- * @param client_socket
+ * @param ssl
  */
-void list_files(const int client_socket) {
-    struct dirent *entry; // representa una entrada a un directorio
+void list_files(SSL *ssl) {
+    struct dirent *entry;
 
-    DIR *dir = opendir(FTP_DIR); // creamos un puntero, una dirección de la memoria donde está alojada la variable el directorio
+    DIR *dir = opendir(FTP_DIR);
     if (dir == NULL) {
         perror("opendir");
         return;
     }
 
-    // leemos directorios hasta que sean null
     while ((entry = readdir(dir)) != NULL) {
         // DT_REG significa un archivo regular
         if (entry->d_type == DT_REG) {
-            char buffer[BUFFER_SIZE]; // buffer por defecto para enviar el nombre
+            char buffer[BUFFER_SIZE];
             snprintf(buffer, sizeof(buffer), "%s\n", entry->d_name);
-            send(client_socket, buffer, strlen(buffer), 0); // lo enviamos por socket
+            SSL_write(ssl, buffer, strlen(buffer));
         }
     }
 
     closedir(dir);
     const char *end_msg = "FIN_LISTA\n";
-    send(client_socket, end_msg, strlen(end_msg), 0);
+    SSL_write(ssl, end_msg, strlen(end_msg));
 }
 
 /**
  * funcion para enviar un archivo almacenado en el servidor al cliente que lo solicita
- * @param client_socket descriptor del socket id del cliente
+ * @param ssl
  * @param filename nombre del archivo que el cliente quiere descargar
  */
-void retrieve_file(int client_socket, const char *filename) {
+void retrieve_file(SSL *ssl, const char *filename) {
     char filepath[BUFFER_SIZE]; // buffer para almacenar la dirección entera del archivo
     snprintf(filepath, sizeof(filepath), "%s/%s", FTP_DIR, filename); // almacenamos la ruta entera con el nombre del archivo
 
@@ -82,7 +82,7 @@ void retrieve_file(int client_socket, const char *filename) {
     if (file == NULL) {
         perror("fopen");
         const char *error_msg = "Error: archivo no encontrado\n";
-        send(client_socket, error_msg, strlen(error_msg), 0);
+        SSL_write(ssl, error_msg, strlen(error_msg));
         return;
     }
 
@@ -91,7 +91,7 @@ void retrieve_file(int client_socket, const char *filename) {
 
     // bucle que vamos guardando los bytes en bytes_read en bloques del tamaño del buffer, todos sacados del puntero del archivo
     while ((bytes_read = fread(buffer, 1, sizeof(buffer), file)) > 0) {
-        send(client_socket, buffer, bytes_read, 0);
+        SSL_write(ssl, buffer, bytes_read);
     }
     fclose(file);
 }
@@ -99,10 +99,10 @@ void retrieve_file(int client_socket, const char *filename) {
 
 /**
  * funcion para alojar los archivos en el server
- * @param client_socket
+ * @param ssl
  * @param filename
  */
-void store_file(const int client_socket, const char *filename) {
+void store_file(SSL *ssl, const char *filename) {
     char filepath[BUFFER_SIZE];
     snprintf(filepath, sizeof(filepath), "%s/%s", FTP_DIR, filename); // filepath + filename poco más...
 
@@ -110,14 +110,15 @@ void store_file(const int client_socket, const char *filename) {
     if (file == NULL) {
         perror("fopen");
         const char *error_msg = "Error: no se pudo crear el archivo\n";
-        send(client_socket, error_msg, strlen(error_msg), 0);
+        SSL_write(ssl, error_msg, strlen(error_msg));
         return;
     }
 
     char buffer[BUFFER_SIZE];
     ssize_t bytes_received;
 
-    while ((bytes_received = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
+
+    while ((bytes_received = SSL_read(ssl, buffer, sizeof(buffer) - 1)) > 0) {
         fwrite(buffer, 1, bytes_received, file);
     }
 

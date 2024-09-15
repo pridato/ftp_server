@@ -4,10 +4,11 @@
 
 #ifndef COMMANDS_H
 #define COMMANDS_H
+#include <openssl/types.h>
 
-void handle_client(int client_socket);
-void list_files(int client_socket);
-void retrieve_file(int client_socket, const char *filename);
-void store_file(int client_socket, const char *filename);
+void handle_client(SSL *ssl);
+void list_files(SSL *ssl);
+void retrieve_file(SSL *ssl, const char *filename);
+void store_file(SSL *ssl, const char *filename);
 
 #endif //COMMANDS_H
