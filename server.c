@@ -58,11 +58,12 @@ void start_server() {
     printf("Cliente conectado\n");
 
     while ((bytes_received = recv(client_socket, buffer, BUFFER_SIZE, 0)) > 0) {
-        buffer[bytes_received] = '\0'; // Asegurarse de que el búfer sea una cadena de texto
+        buffer[bytes_received] = '\0';
+
         printf("Mensaje del cliente: %s\n", buffer);
 
-        // Enviar una respuesta al cliente
-        const char *response = "Comando recibido\n";
+        char response[BUFFER_SIZE + 50];
+        snprintf(response, sizeof(response), "Comando recibido: %s\n", buffer);
         send(client_socket, response, strlen(response), 0);
     }
 
