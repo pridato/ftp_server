@@ -22,8 +22,6 @@
 void start_server() {
     struct sockaddr_in server_addr, client_addr;
     socklen_t client_len;
-    char buffer[BUFFER_SIZE];
-    ssize_t bytes_received;
 
     const int server_socket = generate_socket();
 
@@ -57,19 +55,7 @@ void start_server() {
 
     printf("Cliente conectado\n");
 
-    while ((bytes_received = recv(client_socket, buffer, BUFFER_SIZE, 0)) > 0) {
-        buffer[bytes_received] = '\0';
-
-        printf("Mensaje del cliente: %s\n", buffer);
-
-        char response[BUFFER_SIZE + 50];
-        snprintf(response, sizeof(response), "Comando recibido: %s\n", buffer);
-        send(client_socket, response, strlen(response), 0);
-    }
-
-    if (bytes_received < 0) {
-        perror("recv");
-    }
+    handle_client(client_socket);
 
     printf("Cliente desconectado\n");
 
